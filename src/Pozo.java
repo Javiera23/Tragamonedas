@@ -13,7 +13,11 @@ public class Pozo {
     }
 
     public void setSaldo(int apuesta){
-        saldo = saldo - apuesta;
+        saldo -= apuesta;
+    }
+
+    public void actualizarSaldo(int premio){
+        saldo += premio;
     }
 
 

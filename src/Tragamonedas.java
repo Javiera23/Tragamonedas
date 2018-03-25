@@ -35,11 +35,15 @@ public class Tragamonedas {
                 mostrarNumeros();
                 maquina.calcularPremio(apuesta);
                 montoPremio();
-            }else{
+                if (maquina.getPremio() > 0) {
+                    pozo.actualizarSaldo(maquina.getPremio());
+                }
+            }
+            if (apuesta == 0) {
                 salir();
+                break;
             }
         }
-        salir();
     }
 
     public static boolean realizarApuesta() {
@@ -47,14 +51,10 @@ public class Tragamonedas {
         String numero = "";
         Scanner entradaEscaner = new Scanner(System.in);
         numero = entradaEscaner.nextLine();
-
+        numero = numero.replaceAll(" ", "");
         if (apuestaEsValida(numero)) {
-            System.out.println(apuesta);
             pozo.setSaldo(apuesta);
             return true;
-        }
-        if (apuesta == 0) {
-            return false;
         }
         return false;
     }
@@ -62,9 +62,14 @@ public class Tragamonedas {
     public static boolean apuestaEsValida(String numero) {
         try {
             apuesta = Integer.parseInt(numero);
+            if(apuesta > pozo.getSaldo() || apuesta < 0) {
+                System.out.println("Ingrese un monto valido para apostar.");
+                return false;
+            }
             return (apuesta <= pozo.getSaldo() && apuesta > 0);
+
         } catch (NumberFormatException nfe) {
-            System.out.println("Ingrese un monto valido para apostar");
+            System.out.println("Ingrese un monto valido para apostar.");
             return false;
         }
     }
@@ -75,19 +80,18 @@ public class Tragamonedas {
     }
 
     public static void mostrarNumeros() {
-        System.out.println("+---+---+---+");
+        System.out.println("+--+--+--+");
         for (int i = 0; i < maquina.getNumeros().length; i++) {
             if(maquina.getNumeros()[i] == 0) {
-                System.out.println(" * \t");
+                System.out.print("*\t");
             }else{
                 System.out.print(maquina.getNumeros()[i] + "\t");
             }
         }
 
         System.out.println();
-        System.out.println("+---+---+---+");
+        System.out.println("+--+--+--+");
     }
-
 }
 
 
