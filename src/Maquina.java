@@ -1,30 +1,25 @@
 import java.lang.Math;
-import java.lang.String;
 
 public class Maquina {
-    int montoPorAsteriscos[] = {50,300,500,1000,2000}; //En el caso de que la maquina tuviera mas de 3 numeros, modificar el monto por la cantidad de asteriscos
-    int cantidadNumeros = 5; //En el caso de que fueran mas numeros, bastaria modificar el 3 por el numero deseado;
-    int[] numeros = new int[cantidadNumeros];
-    //int[] numeros = {5,5,5};
+    private int montoPorAsteriscos[] = {50,300,500}; //En el caso de que la maquina tuviera mas de 3 numeros, modificar el monto por la cantidad de asteriscos
+    private int cantidadNumeros = 3; //En el caso de que fueran mas numeros, bastaria modificar el 3 por el numero deseado;
+    private int premio;
+    private int[] numeros;
+
 
     public Maquina() {
+        numeros = new int[cantidadNumeros];
+
     }
 
     public void generarNumero(){
         for(int i=0; i<numeros.length; i++) {
             numeros[i] = (int) (Math.random() * 10);
-            System.out.println(numeros[i]);
-            //String numero = Integer.toString(num1);
-            //if (numero.equals("0")) {
-                //numeros[i] = "*";
-            //} else {
-                //numeros[i] = numero;
-
         }
     }
 
     public int calcularPremio(int apuesta){
-        int premio = 0;
+        premio = 0;
         int asteriscos = 0;
         boolean iguales = true;
         int numeroIgual = 0;
@@ -48,6 +43,14 @@ public class Maquina {
             premio = montoPorAsteriscos[asteriscos - 1];
         }
         return premio;
+    }
+
+    public int getPremio(){
+        return premio;
+    }
+
+    public int[] getNumeros(){
+        return numeros;
     }
 
 }
