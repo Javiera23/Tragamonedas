@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.Calendar;
+
 public class Tragamonedas {
     private static Maquina maquina;
     private static Pozo pozo;
@@ -7,27 +9,43 @@ public class Tragamonedas {
     public Tragamonedas(){
         pozo = new Pozo();
         maquina = new Maquina();
+        apuesta = -1;
     }
+
+    /**
+     * Comienza una partida en el tragamonedas.
+     * **/
     public static void comenzar() {
         bienvenida();
         jugar();
         despedida();
 
     }
-
+    /**
+     * Despliega un mensaje de bienvenida.
+     * **/
     public static void bienvenida() {
         System.out.println("Bienvenido al Tragamonedas de Programacion I\n============================================");
 
     }
 
+    /**
+     * Despliega un mensaje de despedida.
+     */
     public static void despedida() {
         System.out.println("Muchas gracias por jugar. Mejor suerte la proxima vez.");
     }
 
+    /**
+     * Despliega el valor del premio obtenido.
+     */
     public static void montoPremio() {
         System.out.println("Ud. Obtiene $" + maquina.getPremio() + "!");
     }
 
+    /**
+     * Metodo que simula el jugar en el tragamonedas.
+     */
     public static void jugar() {
         while (pozo.getSaldo() > 0) {
             if (realizarApuesta()) {
@@ -38,6 +56,7 @@ public class Tragamonedas {
                 if (maquina.getPremio() > 0) {
                     pozo.actualizarSaldo(maquina.getPremio());
                 }
+
             }
             if (apuesta == 0) {
                 salir();
@@ -46,6 +65,10 @@ public class Tragamonedas {
         }
     }
 
+    /**
+     * Metodo que simula el proceso de realizar una apuesta.
+     * @return true si se realizo la apuesta, false en caso contrario.
+     */
     public static boolean realizarApuesta() {
         System.out.println("Su saldo actual es de $" + pozo.getSaldo() + ".  ¿Cuanto desea apostar?");
         String numero = "";
@@ -59,6 +82,11 @@ public class Tragamonedas {
         return false;
     }
 
+    /**
+     * Verifica si la apuesta tiene el formato correcto.
+     * @param numero valor de la apuesta.
+     * @return true si es valida, false en caso contrario.
+     */
     public static boolean apuestaEsValida(String numero) {
         try {
             apuesta = Integer.parseInt(numero);
@@ -74,11 +102,29 @@ public class Tragamonedas {
         }
     }
 
+    /**
+     * Despliega un mensaje de despedida dependiendo de la hora en que se realize la jugada.
+     */
     public static void salir() {
-        System.out.println("Gracias por jugar. Su saldo final es de $" + pozo.getSaldo() + ".");
+        Calendar fecha = Calendar.getInstance();
+        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+        int minuto = fecha.get(Calendar.MINUTE);
+
+        if((hora >= 6 && hora <= 11) && (minuto >= 00 || minuto <= 59)){
+            System.out.println("Buenos días, gracias por jugar. Su saldo final es de $" + pozo.getSaldo() + ".");
+        }
+        else if((hora >= 12 && hora <= 19) && (minuto >= 00 || minuto <= 59)){
+            System.out.println("Buenos tardes, gracias por jugar. Su saldo final es de $" + pozo.getSaldo() + ".");
+        }
+        else if((hora >= 20 || hora <= 5) && (minuto >= 00 || minuto <= 59)){
+            System.out.println("Buenos noches, gracias por jugar. Su saldo final es de $" + pozo.getSaldo() + ".");
+        }
 
     }
 
+    /**
+     * Despliega los numeros, simulando un tragamonedas.
+     */
     public static void mostrarNumeros() {
         System.out.println("+--+--+--+");
         for (int i = 0; i < maquina.getNumeros().length; i++) {
@@ -93,6 +139,7 @@ public class Tragamonedas {
         System.out.println("+--+--+--+");
     }
 }
+
 
 
 
